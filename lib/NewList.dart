@@ -63,7 +63,6 @@ class _NewListState extends State<NewList>{
     final response = await http.get(Uri.parse("https://jsonplaceholder.org/posts"));
     if(response.statusCode == 200){
       List jsonResponse = jsonDecode(response.body);
-      print("Reachedhere*******************************************");
       _posts = jsonResponse.map((post) => Post.fromJson(post)).toList();
     }
     else throw Exception("Failed to load posts");
