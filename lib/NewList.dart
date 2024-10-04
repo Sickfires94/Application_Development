@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -89,11 +88,9 @@ class _NewListState extends State<NewList>{
             if (snap.hasData){
               return
                 ListView.builder(
-                // the number of items in the list
                   itemCount: snap.data?.length,
-
-                  // display each item of the product list
                   itemBuilder: (context, index) {
+
                     return Card(
                       // In many cases, the key isn't mandatory
                       key: ValueKey(snap.data?[index]),
