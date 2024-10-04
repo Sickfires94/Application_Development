@@ -49,70 +49,59 @@ class Post{
       image: json['image'],
     );
   }
-
-  //
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id' : id,
-  //
-  //   }
-  // }
-
 }
 
 class _NewListState extends State<NewList>{
 
+  List<Post> _posts = [];
+  bool _isLoading = true;
 
 
-  Future<List<Post>> fetchAllPosts() async{
+  Future<void> fetchAllPosts() async{
+    setState(() {_isLoading = true;});
+    try{
     final response = await http.get(Uri.parse("https://jsonplaceholder.org/posts"));
     if(response.statusCode == 200){
       List jsonResponse = jsonDecode(response.body);
-      return jsonResponse.map((post) => Post.fromJson(post)).toList();
-
+      print("Reachedhere*******************************************");
+      _posts = jsonResponse.map((post) => Post.fromJson(post)).toList();
     }
     else throw Exception("Failed to load posts");
+    }
+    catch(exp){
+      throw Exception("Failed to load posts");
+    }
+    finally{
+    setState(() {_isLoading = false;});
+  }}
+
+  @override
+  void initState(){
+    fetchAllPosts();
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
+    //print(posts.toString());
 
-    Future<List<Post>> posts = fetchAllPosts();
-    print(posts.toString());
+    // Mock dataList
     // List<String> myProducts = ["hello", "hi"];
     // for (int i = 0; i < 100; i++)
     //   myProducts.add("hi" + i.toString());
 
+
     return Scaffold(
         body: Center(
-          child: FutureBuilder(future: fetchAllPosts(), builder: (context, snap){
-            if (snap.hasData){
-              return
-                ListView.builder(
-                // the number of items in the list
-                  itemCount: snap.data?.length,
+          child:_isLoading ? CircularProgressIndicator() : ListView.builder(itemBuilder: (c, i){
+            var _item = _posts[i];
+            return ListTile(title: Text(_item.title), subtitle: Text(_item.content, overflow: TextOverflow.ellipsis,),
+            leading: CircleAvatar(child: Image.network(_item.image),),);
+          }),
 
-                  // display each item of the product list
-                  itemBuilder: (context, index) {
-                    return Card(
-                      // In many cases, the key isn't mandatory
-                      key: ValueKey(snap.data?[index]),
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              snap.data![index].image),
-                        ),
-                        title: Text(snap.data![index].title),
-                        subtitle: Text((snap.data![index].content), overflow: TextOverflow.ellipsis,),
-                      ),
-                    );
-                  });
-            }
-            return Center(child: CircularProgressIndicator(),);
-          })
-        )
-      );
+
+    ));
   }
 
 
