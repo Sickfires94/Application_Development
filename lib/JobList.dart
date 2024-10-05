@@ -58,6 +58,7 @@ class _JobListState extends State<JobList>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Center(
         child: FutureBuilder(future: fetchAllJobs(), builder: (context, snap){
           if (snap.hasData){
@@ -75,8 +76,9 @@ class _JobListState extends State<JobList>{
 
                   return  Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey), // Add border color and width
-                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white10, width: 2), // Add border color and width
+                      borderRadius: BorderRadius.circular(15), // Rounded corners
                     ),
                     margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Add margin to space between tiles
                     child: ListTile(
