@@ -35,19 +35,15 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
-
-
   int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: topBar(),
-        body: JobList(),
+      appBar: topBar(),
+      body: JobList(),
       bottomNavigationBar: bottomBar(),
     );
 
