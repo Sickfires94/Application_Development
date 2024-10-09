@@ -14,20 +14,12 @@ class _appbarState extends State<topBar>{
       Center( child: AppBar(
         shape: Border(
             bottom: BorderSide(
-                color: Colors.white60,
+                color: Colors.teal.shade700,
                 width: 2
             )
         ),
-        backgroundColor: Colors.white,
-        title: Text('Jobs'),
-        actions:  <Widget>[ Padding(
-            padding: EdgeInsets.all(15),
-            child: Icon(
-              Icons.notifications_none,
-              color: Colors.purple,
-              size: 30.0,
-              semanticLabel: 'Text to announce in accessibility modes',
-            )),]
+        backgroundColor: Colors.teal.shade700,
+        title: Text('Space Missions', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
     ),);
   }
 
