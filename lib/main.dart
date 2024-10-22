@@ -1,63 +1,79 @@
-import 'package:first_app/NewList.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Counter()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+
+class Counter with ChangeNotifier{
+  int _count = 0;
+
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners();
+  }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Home'),
+    return const MaterialApp(
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String> myProducts = ["hello", "hi"];
-    for (int i = 0; i < 100; i++)
-      myProducts.add("hi" + i.toString());
-
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme
-              .of(context)
-              .colorScheme
-              .inversePrimary,
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: const Text('Example'),
+      ),
+      body: const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('You have pushed the button this many times:'),
+            Count(),
+          ],
         ),
-
-        body:
-        NewList()
+      ),
+      floatingActionButton: FloatingActionButton(
+        key: const Key('increment_floatingActionButton'),
+        onPressed: () => context.read<Counter>().increment(),
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
     );
-
   }
-
 }
 
+class Count extends StatelessWidget {
+  const Count({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '${context.watch<Counter>().count}',
+      key: const Key('counterState'),
+      style: Theme.of(context).textTheme.headlineMedium,
+    );
+  }
+}
