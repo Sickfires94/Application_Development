@@ -4,19 +4,17 @@ import 'package:first_app/LaunchWidget/LaunchChip.dart';
 import 'package:first_app/LaunchWidget/LaunchDescription.dart';
 import 'package:first_app/LaunchWidget/launch_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LaunchTile extends StatefulWidget{
+import 'LaunchList.dart';
 
-  final Launch launch;
-  LaunchTile({required this.launch});
+class LaunchTile extends StatelessWidget{
 
-  State<StatefulWidget> createState() => _LaunchTileState();
-}
+  final int launchIndex;
+  LaunchTile({required this.launchIndex});
 
-class _LaunchTileState extends State<LaunchTile>{
-  @override
   Widget build(BuildContext context) {
-    Launch? launch = widget.launch;
+    Launch? launch = context.watch<LaunchListProvider>().launchList[launchIndex];;
     return  Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -28,7 +26,7 @@ class _LaunchTileState extends State<LaunchTile>{
         title: Text(launch.missionName ?? ""),
         subtitle: Column(
           children: [
-            LaunchDescription(description: launch.description ?? ""),
+            LaunchDescription(launchIndex: launchIndex),
             Wrap(
               spacing: 20,
               children: launch.payloadIds

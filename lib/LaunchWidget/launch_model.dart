@@ -7,6 +7,7 @@ class Launch {
 	String? website;
 	String? twitter;
 	String? description;
+	bool show = false;
 
 	Launch({this.missionName, this.missionId, this.manufacturers, this.payloadIds, this.wikipedia, this.website, this.twitter, this.description});
 

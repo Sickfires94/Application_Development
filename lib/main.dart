@@ -2,12 +2,18 @@
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'LaunchWidget/LaunchList.dart';
 import 'appbar.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => LaunchListProvider()),
+    ],
+    child: const MyApp(),
+  ),);
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

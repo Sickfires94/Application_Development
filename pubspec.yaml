@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.2
-  timeago: ^3.7.0
+  provider: ^6.1.2
   google_fonts: ^6.2.1
 
 
