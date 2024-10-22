@@ -1,21 +1,70 @@
 
 import 'dart:convert';
 
+import 'package:first_app/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-class NewList extends StatefulWidget{
+class NewListBuilder extends StatelessWidget{
+  const NewListBuilder({super.key});
 
-  const NewList({super.key});
+
+  // const NewList({Key? key}) : super(key: key);
+
+
 
   @override
-  State<NewList> createState() => _NewListState();
+  Widget build(BuildContext context) {
+
+    if (context.watch<NewList>().isLoading){
+      context.read<NewList>().fetchAllPosts();
+      return CircularProgressIndicator();
+    }
+
+    return Scaffold(
+        body: Center(
+          child:ListView.builder(itemBuilder: (c, i){
+
+            var _item = context.watch<NewList>().posts[i];
+            return ListTile(title: Text(_item.title), subtitle: Text(_item.content, overflow: TextOverflow.ellipsis,),
+              leading: CircleAvatar(child: Image.network(_item.image),),);
+          }),
+
+
+        ));
+  }
+}
+
+class NewList with ChangeNotifier{
+  List<Post> _posts = [];
+  bool _isloading = true;
+
+  List<Post> get posts => _posts;
+  bool get isLoading => _isloading;
+
+  void fetchAllPosts() async{
+    try{
+      final response = await http.get(Uri.parse("https://jsonplaceholder.org/posts"));
+      if(response.statusCode == 200){
+        List jsonResponse = jsonDecode(response.body);
+        _posts = jsonResponse.map((post) => Post.fromJson(post)).toList();
+        _isloading = false;
+        print("HJello");
+      }
+      else throw Exception("Failed to load posts");
+    }
+    catch(exp){
+      throw Exception("Failed to load posts");
+    }
+    finally{
+      notifyListeners();
+    }
+  }
 }
 
 class Post{
-
-
  final int id;
  final String slug;
  final String url;
@@ -51,57 +100,5 @@ class Post{
   }
 }
 
-class _NewListState extends State<NewList>{
-
-  List<Post> _posts = [];
-  bool _isLoading = true;
-
-
-  Future<void> fetchAllPosts() async{
-    setState(() {_isLoading = true;});
-    try{
-    final response = await http.get(Uri.parse("https://jsonplaceholder.org/posts"));
-    if(response.statusCode == 200){
-      List jsonResponse = jsonDecode(response.body);
-      _posts = jsonResponse.map((post) => Post.fromJson(post)).toList();
-    }
-    else throw Exception("Failed to load posts");
-    }
-    catch(exp){
-      throw Exception("Failed to load posts");
-    }
-    finally{
-    setState(() {_isLoading = false;});
-  }}
-
-  @override
-  void initState(){
-    fetchAllPosts();
-    super.initState();
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    //print(posts.toString());
-
-    // Mock dataList
-    // List<String> myProducts = ["hello", "hi"];
-    // for (int i = 0; i < 100; i++)
-    //   myProducts.add("hi" + i.toString());
-
-
-    return Scaffold(
-        body: Center(
-          child:_isLoading ? CircularProgressIndicator() : ListView.builder(itemBuilder: (c, i){
-            var _item = _posts[i];
-            return ListTile(title: Text(_item.title), subtitle: Text(_item.content, overflow: TextOverflow.ellipsis,),
-            leading: CircleAvatar(child: Image.network(_item.image),),);
-          }),
-
-
-    ));
-  }
-
-
+class _NewListState with ChangeNotifier{
 }

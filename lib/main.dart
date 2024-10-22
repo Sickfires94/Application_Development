@@ -1,3 +1,4 @@
+import 'package:first_app/NewList.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Counter()),
+        ChangeNotifierProvider(create: (_) => NewList()),
       ],
       child: const MyApp(),
     ),
@@ -46,22 +47,8 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Example'),
       ),
       body: const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('You have pushed the button this many times:'),
-            Count(),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        key: const Key('increment_floatingActionButton'),
-        onPressed: () => context.read<Counter>().increment(),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+        child: NewListBuilder()
+    ));
   }
 }
 
