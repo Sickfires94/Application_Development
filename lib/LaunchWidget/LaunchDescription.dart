@@ -1,81 +1,161 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LaunchDescription extends StatefulWidget{
+import 'LaunchDescriptionBloc.dart';
 
-  String description;
+class LaunchDescription extends StatelessWidget{
+
+  final String description;
   LaunchDescription({required this.description});
 
   @override
-  State<StatefulWidget> createState() => _LaunchDescriptionState();
+  Widget build(BuildContext context) {
+
+    return BlocProvider(
+        create: (context) => LaunchDescriptionBloc(description)..add(ShowLess()),
+        child: Description()
+    );
+
+      // if (!_show) {
+      //   return Column(children: [
+      //     Text(widget.description, overflow:TextOverflow.ellipsis),
+      //     Row(
+      //       textDirection: TextDirection.rtl,
+      //       children: [TextButton(
+      //         onPressed: () => {
+      //         setState(() {
+      //           _show = true;
+      //         })},
+      //
+      //         style: ButtonStyle(
+      //             backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
+      //             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      //                 RoundedRectangleBorder(
+      //                     borderRadius: BorderRadius.circular(50.0),
+      //                     //side: BorderSide(color: Colors.red),
+      //
+      //                 )
+      //             )
+      //         ),
+      //
+      //         child: Row(
+      //           textDirection: TextDirection.rtl,
+      //           children:[
+      //             Icon(Icons.arrow_downward, size: 30.0,color: Colors.blue),
+      //             Text("More", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
+      //           ],),
+      //     )]),
+      //   ]);
+      // }
+      // return Column(children: [
+      //   Text(widget.description),
+      //   Row(
+      //   textDirection: TextDirection.rtl,
+      //   children: [
+      //   TextButton(onPressed: () => {
+      //     setState(() {
+      //       _show = false;
+      //     })
+      //
+      //   },
+      //     style: ButtonStyle(
+      //         backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
+      //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      //             RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(50.0),
+      //               //side: BorderSide(color: Colors.red),
+      //
+      //             )
+      //         )
+      //     ),
+      //     child: Row(
+      //       textDirection: TextDirection.rtl,
+      //       children:[
+      //         Icon(Icons.arrow_upward, size: 30.0, color: Colors.blue),
+      //         Text("Less"),
+      //       ],),
+      //   )]),
+      // ]);
+    }
 }
 
-class _LaunchDescriptionState extends State<LaunchDescription>{
-  bool _show = false;
+class Description extends StatelessWidget{
 
-  @override
   Widget build(BuildContext context) {
-      if (!_show) {
-        return Column(children: [
-          Text(widget.description, overflow:TextOverflow.ellipsis),
-          Row(
-            textDirection: TextDirection.rtl,
-            children: [TextButton(
-              onPressed: () => {
-              setState(() {
-                _show = true;
-              })},
+    return BlocBuilder<LaunchDescriptionBloc, DescriptionState>(
+        builder: (context, state) {
+          if (state is DescriptionTrimmed) {
+            return Column(children: [
+              Text(state.description, overflow: TextOverflow.ellipsis),
+              Row(
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    TextButton(
+                      onPressed: () =>
+                          context.read<LaunchDescriptionBloc>().add(ShowMore()),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(
+                              Colors.grey.shade200),
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                //side: BorderSide(color: Colors.red),
 
-              style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          //side: BorderSide(color: Colors.red),
+                              )
+                          )
+                      ),
 
-                      )
-                  )
-              ),
+                      child: Row(
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          Icon(Icons.arrow_downward, size: 30.0,
+                              color: Colors.blue),
+                          Text("More", style: TextStyle(color: Colors.blue,
+                              fontWeight: FontWeight.bold),),
+                        ],),
+                    )
+                  ]),
+            ]);
+          } else if (state is DescriptionShowed) {
+            return Column(children: [
+              Text(state.description),
+              Row(
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    TextButton(
+                      onPressed: () =>
+                          context.read<LaunchDescriptionBloc>().add(ShowLess()),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(
+                              Colors.grey.shade200),
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                //side: BorderSide(color: Colors.red),
 
-              child: Row(
-                textDirection: TextDirection.rtl,
-                children:[
-                  Icon(Icons.arrow_downward, size: 30.0,color: Colors.blue),
-                  Text("More", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
-                ],),
-          )]),
-        ]);
-      }
-      return Column(children: [
-        Text(widget.description),
-        Row(
-        textDirection: TextDirection.rtl,
-        children: [
-        TextButton(onPressed: () => {
-          setState(() {
-            _show = false;
-          })
+                              )
+                          )
+                      ),
 
-        },
-          style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Colors.grey.shade200),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0),
-                    //side: BorderSide(color: Colors.red),
-
-                  )
-              )
-          ),
-          child: Row(
-            textDirection: TextDirection.rtl,
-            children:[
-              Icon(Icons.arrow_upward, size: 30.0, color: Colors.blue),
-              Text("Less"),
-            ],),
-        )]),
-      ]);
-    }
-
+                      child: Row(
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          Icon(Icons.arrow_upward, size: 30.0,
+                              color: Colors.blue),
+                          Text("More", style: TextStyle(color: Colors.blue,
+                              fontWeight: FontWeight.bold),),
+                        ],),
+                    )
+                  ]),
+            ]);
+            return const Center(child: Text("Press button to fetch Products"));
+          }
+          return Text("Error");
+        }
+    );
+  }
 
 }
