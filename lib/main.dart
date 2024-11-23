@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
-import 'LaunchWidget/LaunchBloc.dart';
-import 'LaunchWidget/LaunchList.dart';
-import 'LaunchWidget/launch_model.dart';
+import 'ArticleWidget/ArticleBloc.dart';
+import 'ArticleWidget/ArticleList.dart';
+import 'ArticleWidget/Article_model.dart';
 import 'appbar.dart';
 
 void main() {
@@ -26,30 +26,30 @@ class MyApp extends StatelessWidget {
         ),
       ),
         home: BlocProvider(
-            create: (context) => LaunchBloc()..add(FetchLaunches()),
-            child: LaunchScreen()
+            create: (context) => ArticleBloc()..add(FetchArticles()),
+            child: ArticleScreen()
         )
     );
   }
 }
 
-class LaunchScreen extends StatelessWidget {
+class ArticleScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Launches")),
-        body: BlocBuilder<LaunchBloc, LaunchState>(
+        appBar: AppBar(title: const Text("Articles")),
+        body: BlocBuilder<ArticleBloc, ArticleState>(
             builder: (context, state){
-              if (state is LaunchLoading){
+              if (state is ArticleLoading){
                 return Center(child: CircularProgressIndicator(),);
                 // return const SkeletonList extends statelessWidget();
-              } else if (state is LaunchLoaded){
-                List<Launch> launches = state.launch;
-                return LaunchList(launches: launches);
-              } else if (state is LaunchError) {
+              } else if (state is ArticleLoaded){
+                List<Article> articles = state.article;
+                return ArticleList(articles: articles);
+              } else if (state is ArticleError) {
                 return Center(child: Text(state.error));
               }
-              return const Center(child: Text("Press button to fetch Launchs"));
+              return const Center(child: Text("Press button to fetch Articles"));
             })
     );
   }
