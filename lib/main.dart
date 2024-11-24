@@ -50,7 +50,7 @@ class ArticleScreen extends StatelessWidget {
           actions: [
             Padding(
               padding: EdgeInsets.all(3),
-              child: Image.asset("assets/news.png", height: 100, width: 100,),),],
+              child: Image.asset("assets/newspaper.png", height: 100, width: 100,),),],
         ),
         body: BlocBuilder<ArticleBloc, ArticleState>(
             builder: (context, state){

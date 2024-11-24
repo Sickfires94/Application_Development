@@ -43,7 +43,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState>{
           final data = jsonDecode(response.body);
           final articles =  (data['articles'] as List).map((article) => Article.fromJson(article)).toList();
           print(articles);
-        emit(ArticleLoaded(articles));
+          emit(ArticleLoaded(articles));
       }
       else throw Exception("Failed to load posts");
     }
