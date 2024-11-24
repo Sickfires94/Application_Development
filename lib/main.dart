@@ -1,6 +1,6 @@
 
 
-import 'package:first_app/ArticleWidget/ArticleExpanded.dart';
+import 'package:first_app/ArticleWidget/ArticleDrawer.dart';
 import 'package:first_app/ArticleWidget/ShimmerComponents/ArticleListShimmer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';

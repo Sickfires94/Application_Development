@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:first_app/ArticleWidget/ArticleExpanded.dart';
+import 'package:first_app/ArticleWidget/ArticleDrawer.dart';
 import 'package:first_app/ArticleWidget/Article_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +25,8 @@ class _ArticleTileState extends State<ArticleTile> {
       child: Card(
         child: InkWell(
           onTap: () {
-                  showModalBottomSheet(context: context, isScrollControlled: true, builder: (BuildContext context) {
+                  showModalBottomSheet(context: context, isScrollControlled: true, enableDrag: true,
+                      showDragHandle: true, builder: (BuildContext context) {
                     return ArticleExpanded(article: article,);
                   });
                 },
