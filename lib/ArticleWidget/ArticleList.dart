@@ -15,6 +15,7 @@ class ArticleList extends StatelessWidget{
     return Scaffold(
       body: Center(
         child: ListView.builder(
+            cacheExtent: 9999,
             itemCount: articles.length,
             itemBuilder: (c, index){
               Article article = articles[index];
