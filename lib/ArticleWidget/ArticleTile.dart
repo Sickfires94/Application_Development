@@ -23,6 +23,8 @@ class _ArticleTileState extends State<ArticleTile> {
       // ),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Card(
+        shadowColor: Colors.orange,
+        elevation: 3,
         child: InkWell(
           onTap: () {
                   showModalBottomSheet(context: context, isScrollControlled: true, enableDrag: true,

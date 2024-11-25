@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:url_launcher/link.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Article_model.dart';
 
@@ -32,20 +32,15 @@ class ArticleExpanded extends StatelessWidget {
             Container(height: 10,),
             Text(article.content ?? "No Content available"),
             Container(height: 10,),
-            TextButton(onPressed: _launchUrl
-              , child: Text("Open Article"))
+            TextButton(onPressed: () async {
+              if (!await launchUrl(Uri.parse(article.url ?? ""))) {
+              throw Exception('Could not launch ${article.url}');
+            }}
+              , child: Text("Open Article"),
+            )
           ],
         ),
         ),
     );
-  }
-
-  Future<void> _launchUrl() async {
-    print("parsing url: ${article.url}");
-    Uri url = Uri.parse(article.url ?? "https://google.com");
-    print("Opening url ${article.url}");
-    // if (!await launchUrl(url)) {
-    //   throw Exception('Could not launch ${url}');
-    // }
   }
 }
