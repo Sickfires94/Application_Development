@@ -1,25 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:first_app/FriendsWidget/FriendsAdd.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'AuthService.dart';
 
-class login extends StatefulWidget{
+class login extends StatelessWidget{
+
+  final Set<void> Function(String) redirect;
+  const login({super.key,required this.redirect});
 
 
-  @override
-  State<StatefulWidget> createState() => _LoginState();
-
-}
-
-class _LoginState extends State<login> {
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null){
       return ElevatedButton(onPressed: () async {
         await AuthService().signInWithGoogle();
-        setState(() {});
+        redirect("list");
       }, child: Text("Google Login"));
     }
     else {
@@ -30,7 +28,7 @@ class _LoginState extends State<login> {
             ElevatedButton(onPressed: () async {
               await AuthService().signOutWithGoogle();
               await AuthService().logout();
-              setState(() {});
+              redirect("login");
             }, child: Text("Logout")),
           ],
         ),
