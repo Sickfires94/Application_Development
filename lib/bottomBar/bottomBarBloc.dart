@@ -36,6 +36,7 @@ class bottomBarBloc extends Bloc<bottomBarEvent, bottomBarState>{
   }
 
   void _screen3Switch(screen3Switch event, Emitter<bottomBarState> emit) {
+    print("reached inner function");
     _screen = screens.screen3;
     emit(screen3());
   }
