@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/AuthService.dart';
+import 'package:first_app/Blocs/JuiceBloc.dart';
 import 'package:first_app/bottomBar/bottomBar.dart';
 import 'package:first_app/bottomBar/bottomBarBloc.dart';
 import 'package:first_app/firebase_options.dart';
+import 'package:first_app/screens/AnalyticsWidget.dart';
 import 'package:first_app/screens/homeScreen.dart';
 import 'package:first_app/screens/screen2.dart';
 import 'package:first_app/screens/screen3.dart';
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home:  BlocProvider(
-          create: (context) => bottomBarBloc(),
+          create: (context) => JuiceBloc(),
           child: const MyHomePage(title: 'Home')
       ),
       // home: const MyHomePage(title: 'Home')
@@ -49,20 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: bottomBar(),
-      body: BlocBuilder<bottomBarBloc, bottomBarState>(builder: (context, state) {
-        if(state is homeScreen){
-          return homeScreenWidget();
-        }
-        if (state is screen2){
-          return screen2Widget();
-        }
-        if(state is screen3) {
-          return screen3Widget();
-        }
-        return homeScreenWidget();
-      }),
-      // body: Text("hello")
+      backgroundColor: Colors.red.shade200,
+
+      //Q1 Screen
+      // body: homeScreenWidget()
+
+      // Q2 Screen
+      body: AnalyticsWidget(),
     );
   }
 }
