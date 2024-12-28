@@ -21,6 +21,7 @@ class AnalyticsWidget extends StatelessWidget{
           Row(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Weekly Expense", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
                 Text("From 1 - 6 Apr, 2024")
