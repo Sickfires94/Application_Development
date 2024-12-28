@@ -26,8 +26,9 @@ class AnalyticsWidget extends StatelessWidget{
                 Text("From 1 - 6 Apr, 2024")
               ],
             ),
-          SizedBox(width: 30,),
-            TextButton(onPressed: (){}, child: Text("View Report"),),
+          SizedBox(width: 10,),
+            ElevatedButton(onPressed: (){}, child: Text("View Report"),
+            ),
           ],
       ),
 
